@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                             if(jsonObject.getString("Status").equals("OK"))
                             {
                                 Toast.makeText(getApplicationContext(),jsonObject.getString("Message"),Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                startActivity(new Intent(getApplicationContext(),MainLayerActivity.class));
                             }
                             else
                             {
