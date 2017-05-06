@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
 
-   /*public Button but2;
+   public Button but2;
 
     public void init(){
         but2=(Button)findViewById(R.id.but2);
@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(toy);
             }
         });
-    }*/
+    }
 
 
 
@@ -32,6 +32,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //init();
+        init();
     }
 }
