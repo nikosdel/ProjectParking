@@ -25,7 +25,10 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MainLayerActivity"></activity>
+        <activity android:name=".MainLayerActivity" />
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>
