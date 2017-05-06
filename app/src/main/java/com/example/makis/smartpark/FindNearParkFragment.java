@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,10 +26,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class FindNearParkFragment extends Fragment implements OnMapReadyCallback {
 
     GoogleMap map;
-    //GoogleApiClient mGoogleApiClient;
-    //Location mLastLocation;
-    //Marker mCurrLocationMarker;
-    //LocationRequest mLocationRequest;
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
+    Marker mCurrLocationMarker;
+    LocationRequest mLocationRequest;
 
     public FindNearParkFragment() {
         // Required empty public constructor
@@ -57,12 +58,13 @@ public class FindNearParkFragment extends Fragment implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         map=googleMap;
-
-        LatLng pp = new LatLng(11.5448729, 104.8921668);
-        MarkerOptions option = new MarkerOptions();
-        option.position(pp).title("assaaa");
-        map.addMarker(option);
-        map.moveCamera(CameraUpdateFactory.newLatLng(pp));
+        map.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("Marker"));
+        map.setMyLocationEnabled(true);
+        //LatLng pp = new LatLng(11.5448729, 104.8921668);
+        //MarkerOptions option = new MarkerOptions();
+        //option.position(pp).title("assaaa");
+        //map.addMarker(option);
+        //map.moveCamera(CameraUpdateFactory.newLatLng(pp));
 
 
     }
