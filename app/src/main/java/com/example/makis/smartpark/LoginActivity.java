@@ -8,15 +8,14 @@ import android.widget.Button;
 
 
 public class LoginActivity extends AppCompatActivity {
-    public Button but2;
+    public Button sing_or_register;
 
     public void init(){
-        but2=(Button)findViewById(R.id.sing_or_register);
-        but2.setOnClickListener(new View.OnClickListener() {
+        sing_or_register=(Button)findViewById(R.id.sing_or_register);
+        sing_or_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent toy= new Intent(LoginActivity.this,MainActivity.class);
-
                 startActivity(toy);
             }
         });
