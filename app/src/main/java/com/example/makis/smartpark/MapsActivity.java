@@ -53,7 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Locations.add(new com.example.makis.smartpark.Location(41.080504,23.553492));
         Locations.add(new com.example.makis.smartpark.Location(41.077528,23.550166));
 
-        Toast.makeText(this, Token, Toast.LENGTH_SHORT).show();
+
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
