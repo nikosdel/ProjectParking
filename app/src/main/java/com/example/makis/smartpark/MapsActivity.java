@@ -2,16 +2,12 @@ package com.example.makis.smartpark;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,8 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -41,11 +36,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    String Token;
+
+    ArrayList<com.example.makis.smartpark.Location> Locations;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FileHandler testhand = new FileHandler();
+        Token = testhand.readFile("token.txt", this.getFilesDir());
+
         setContentView(R.layout.activity_maps);
+
+        Locations = new ArrayList<>();
+        Locations.add(new com.example.makis.smartpark.Location(41.080504,23.553492));
+        Locations.add(new com.example.makis.smartpark.Location(41.077528,23.550166));
+
+        Toast.makeText(this, Token, Toast.LENGTH_SHORT).show();
+
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
@@ -93,6 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
+
     }
 
     @Override
@@ -127,18 +137,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("Current Position");
+        markerOptions.title("My Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
+        // SQRT( POW( 69.1 * ( latitude - $Startlat ), 2 ) + POW(69.1 * ($Startlng - longitude) * COS(latitude / 57.3), 2)
+        Double Distance1 = Math.sqrt( Math.pow(69.1 * (Locations.get(0).getLat() - location.getLatitude()),2) + Math.pow(69.1 * (location.getLongitude() - Locations.get(0).getLog()) * Math.cos(Locations.get(0).getLat() / 57.3),2));
+        Double Distance2 = Math.sqrt( Math.pow(69.1 * (Locations.get(1).getLat() - location.getLatitude()),2) + Math.pow(69.1 * (location.getLongitude() - Locations.get(1).getLog()) * Math.cos(Locations.get(1).getLat() / 57.3),2));
+
+
+        if(Distance1 < Distance2) {
+            //Place current location marker
+            LatLng latLng2 = new LatLng(Locations.get(0).getLat(), Locations.get(0).getLog());
+            MarkerOptions markerOptions2 = new MarkerOptions();
+            markerOptions2.position(latLng2);
+            markerOptions2.title("Closest Slot");
+            markerOptions2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            mCurrLocationMarker = mMap.addMarker(markerOptions2);
+        } else {
+            //Place current location marker
+            LatLng latLng2 = new LatLng(Locations.get(1).getLat(), Locations.get(1).getLog());
+            MarkerOptions markerOptions2 = new MarkerOptions();
+            markerOptions2.position(latLng2);
+            markerOptions2.title("Closest Slot");
+            markerOptions2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            mCurrLocationMarker = mMap.addMarker(markerOptions2);
+
+        }
+        mCurrLocationMarker.showInfoWindow();
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
 
         //stop location updates
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
+
 
     }
 
@@ -198,6 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
+
                     }
 
                 } else {

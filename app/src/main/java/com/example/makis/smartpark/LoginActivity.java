@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
                 String finUrl=URL+"?email="+email.getText()+"&password="+password.getText();
                 request = new StringRequest(Request.Method.GET, finUrl, new Response.Listener<String>() {
@@ -58,6 +58,10 @@ public class LoginActivity extends AppCompatActivity {
                             if(jsonObject.getString("Status").equals("OK"))
                             {
                                 Toast.makeText(getApplicationContext(),jsonObject.getString("Message"),Toast.LENGTH_SHORT).show();
+                                new FileHandler().saveFile("token.txt",jsonObject.getString("Token"),view);
+
+
+
                                 startActivity(new Intent(getApplicationContext(),MainLayerActivity.class));
                             }
                             else
