@@ -37,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
     String Token;
+    String sddsdadsa;
 
     ArrayList<com.example.makis.smartpark.Location> Locations;
 
